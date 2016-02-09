@@ -7,7 +7,7 @@
  Implementation for plain and encrypted WebSockets. For using secure Websockets over SSL just include ca, key and 
  certificate information in the options structure.
  Limitations: The module only accept messages less than 127 character.
- How to use the ws module:
+ How to use the wss module:
  ```javascript
  // Connect to WiFi, then...
  // =============================== CLIENT
@@ -32,6 +32,7 @@
  wss.send("Hello Server");
  
  // =============================== SECURE CLIENT
+ //See this thread http://forum.espruino.com/conversations/277780/?offset=50 on how to create and use the certificates
  var WebSocket = require("wss");
  var wss = new WebSocket("HOST",{
       port: 8080,
