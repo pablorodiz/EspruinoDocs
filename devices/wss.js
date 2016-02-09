@@ -4,31 +4,58 @@
  * KEYWORDS: Module,websocket,wss,socket,secure
  Websocket implementation on Espruino, it let you control your Espruino from the cloud without the need to know it's IP.
  You will need to use it with a websocket server.
- Implementation for plain and encrypted WebSockets
+ Implementation for plain and encrypted WebSockets. For using secure Websockets over SSL just include ca, key and 
+ certificate information in the options structure.
  Limitations: The module only accept messages less than 127 character.
  How to use the ws module:
  ```javascript
  // Connect to WiFi, then...
  // =============================== CLIENT
- var WebSocket = require("ws");
- var ws = new WebSocket("HOST",{
+ var WebSocket = require("wss");
+ var wss = new WebSocket("HOST",{
       port: 8080,
       protocolVersion: 13,
       origin: 'Espruino',
       keepAlive: 60  // Ping Interval in seconds.
     });
- ws.on('open', function() {
+ wss.on('open', function() {
    console.log("Connected to server");
  });
- ws.on('message', function(msg) {
+ wss.on('message', function(msg) {
    console.log("MSG: " + msg);
  });
- ws.on('close', function() {
+ wss.on('close', function() {
    console.log("Connection closed");
  });
  
  //Send message to server
- ws.send("Hello Server");
+ wss.send("Hello Server");
+ 
+ // =============================== SECURE CLIENT
+ var WebSocket = require("wss");
+ var wss = new WebSocket("HOST",{
+      port: 8080,
+      protocolVersion: 13,
+      origin: 'Espruino',
+      keepAlive: 60,  // Ping Interval in seconds.
+      key :  okey,
+      ca :   oca,
+      cert : ocert
+    });
+ wss.on('open', function() {
+   console.log("Connected to server");
+ });
+ wss.on('message', function(msg) {
+   console.log("MSG: " + msg);
+ });
+ wss.on('close', function() {
+   console.log("Connection closed");
+ });
+ 
+ //Send message to server
+ wss.send("Hello Server");
+ 
+ 
  
  // =============================== SERVER
  var page = '<html><body><script>var ws;setTimeout(function(){';
