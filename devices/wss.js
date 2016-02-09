@@ -115,14 +115,14 @@ WebSocket.prototype.onConnect = function (socket) {
   
     var ws = this;
     this.socket.on('data', function(data) { 
-		try {
-			ws.parseData(data);
-		} catch (e) {
-			console.log(e);
-			//We need to exit ths function before ending the socket or the execution will stop
-			setTimeout(function() {ws.socket.end();}, 0);
-		}
-	});
+      try {
+	ws.parseData(data);
+      } catch (e) {
+	console.log(e);
+	//We need to exit ths function before ending the socket or the execution will stop
+	setTimeout(function() {ws.socket.end();}, 0);
+      }
+    });
 	
     this.socket.on('close', function () {
         ws.emit('close');
@@ -150,12 +150,11 @@ WebSocket.prototype.parseData = function (data) {
             ws.send('ping', 0x89);
         }, this.keepAlive);
       } else {
-		  // Handshake answer from the server was not correct
-		  //ws.socket.end();
-		  // We can not finish the socket while executing parseData callback or program 
-		  //will break when returning. We fire an exception to ask the parent function to close the socket instead  
+	// Handshake answer from the server was not correct
+	//ws.socket.end();
+	// We can not finish the socket while executing parseData callback or program 
+	//will break when returning. We fire an exception to ask the parent function to close the socket instead  
         throw "Handshake error";
-		//return false;
       }  
     } else {
 
@@ -173,11 +172,11 @@ WebSocket.prototype.parseData = function (data) {
 
       if (opcode == 0x8) {
           // connection close request
-		  //ws.socket.end();
-		  // We can not finish the socket while executing parseData callback or program 
-		  //will break when returning. We fire an exception to ask the parent function to close the socket instead  
+	  //ws.socket.end();
+	  // We can not finish the socket while executing parseData callback or program 
+	  //will break when returning. We fire an exception to ask the parent function to close the socket instead  
           // we'll emit a 'close' when the socket itself closes
-		  throw "Request to close connection";
+	  throw "Request to close connection";
       }
 
       if (opcode == 1 /* text - all we're supporting */) {
