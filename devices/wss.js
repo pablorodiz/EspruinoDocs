@@ -141,7 +141,7 @@ WebSocket.prototype.onConnect = function (socket) {
     });
   
     this.socket.on('error', function (err) {
-      this.emit('error', { "message" : "Socket error", "description" : err });	
+      this.emit('error', { "message" : "Socket error" });	
     });  
 	
     this.emit('open');
