@@ -129,7 +129,7 @@ WebSocket.prototype.onConnect = function (socket) {
 	ws.parseData(data);
       } catch (e) {
 	if(e!="Request to close connection received") {
-	  ws.emit('error', '{ "message" : "' + e + '"}');
+	  ws.emit('error', { "message" : e });
 	}
 	//We need to exit ths function before ending the socket or the execution will stop
 	setTimeout(function() {ws.socket.end();}, 0);
@@ -141,7 +141,7 @@ WebSocket.prototype.onConnect = function (socket) {
     });
   
     this.socket.on('error', function (err) {
-      this.emit('error', '{ "message" : "Socket error", "description" : ' + err + '}');	
+      this.emit('error', { "message" : "Socket error", "description" : err });	
     });  
 	
     this.emit('open');
