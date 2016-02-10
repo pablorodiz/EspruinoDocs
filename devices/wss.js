@@ -27,6 +27,9 @@
  wss.on('close', function() {
    console.log("Connection closed");
  });
+ wss.on('error', function(e) {
+   console.log("Error " + e);
+ });
  
  //Send message to server
  wss.send("Hello Server");
@@ -51,6 +54,9 @@
  });
  wss.on('close', function() {
    console.log("Connection closed");
+ });
+ wss.on('error', function(e) {
+   console.log("Error " + e);
  });
  
  //Send message to server
@@ -122,7 +128,9 @@ WebSocket.prototype.onConnect = function (socket) {
       try {
 	ws.parseData(data);
       } catch (e) {
-	console.log(e);
+	if(e!="Request to close connection received") {
+	  ws.emit('error', '{ "message" : "' + e + '"}');
+	}
 	//We need to exit ths function before ending the socket or the execution will stop
 	setTimeout(function() {ws.socket.end();}, 0);
       }
@@ -133,8 +141,8 @@ WebSocket.prototype.onConnect = function (socket) {
     });
   
     this.socket.on('error', function (err) {
-      console.log('Socket error');
-      console.log(err);
+      var error = '{ "message" : "Socket error", "description" : ' + err + '}'
+      this.emit('error', error);	
     });  
 	
     this.emit('open');
@@ -180,7 +188,7 @@ WebSocket.prototype.parseData = function (data) {
 	  // We can not finish the socket while executing parseData callback or program 
 	  //will break when returning. We fire an exception to ask the parent function to close the socket instead  
           // we'll emit a 'close' when the socket itself closes
-	  throw "Request to close connection";
+	  throw "Request to close connection received";
       }
 
       if (opcode == 1 /* text - all we're supporting */) {
