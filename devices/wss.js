@@ -74,6 +74,9 @@
     ws.on('message',function(msg) { print("[WS] "+JSON.stringify(msg)); });
     ws.send("Hello from Espruino!");
  });
+ // =============================== SECURE SERVER
+ // There is no implementation yet available for https server, so I think it is not yet possible to 
+ //create a secure websocket implementation... at least easily :)  
 ```
 */
 
