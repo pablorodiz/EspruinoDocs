@@ -132,7 +132,7 @@ WebSocket.prototype.onConnect = function (socket) {
 	  ws.emit('error', e );
 	}
 	//We need to exit ths function before ending the socket or the execution will stop
-	//setTimeout(function() {ws.socket.end();}, 0);
+	setTimeout(function() {ws.socket.end();}, 0);
       }
     });
 	
@@ -141,7 +141,7 @@ WebSocket.prototype.onConnect = function (socket) {
     });
   
     this.socket.on('error', function (err) {
-      this.emit('error', 'Socket error');	
+      //this.emit('error', 'Socket error');	
     });  
 	
     this.emit('open');
